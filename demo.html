@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <title>滑动删除</title>
+    <link rel="stylesheet" href="./style.css"/>
+    <style>
+        .item_btn_del {
+            position: absolute;
+            top:0;right:-120px;height:100%;width:60px;line-height:86px;background-color:red;color:#fff;text-align:center;
+        }
+        .item_btn_cancel {
+            position: absolute;
+            top:0;right:-60px;height:100%;width:60px;line-height:86px;background-color:black;color:#fff;text-align:center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+
+    <div class="quan-panel no-top">
+
+        <div class="quan-panel__bd" id="list">
+
+            <div class="quan-media-box">
+                <div class="quan-media-box__person">
+                    <img class="person_avator" src="./img/etc_img_free.png">
+                    <div class="person_content">
+                        <div class="person_content-title">左滑删除功能
+                            <span class="person_content__tag hide author">圈主</span>
+                            <span class="person_content__tag top">置顶</span>
+                            <span class="person_content__tag hot">精华</span>
+                        </div>
+                        <div class="person_content-text">2017.10.28 11:37</div>
+                    </div>
+                </div>
+                <div class="quan-media-box__content ellips-content">
+                    原生js实现的左滑删除功能demo
+                </div>
+            </div>
+
+            <div class="quan-media-box">
+                <div class="quan-media-box__person">
+                    <img class="person_avator" src="./img/etc_img_free.png">
+                    <div class="person_content">
+                        <div class="person_content-title">下来刷新效果
+                            <span class="person_content__tag hide author">圈主</span>
+                            <span class="person_content__tag top">置顶</span>
+                            <span class="person_content__tag hot">精华</span>
+                        </div>
+                        <div class="person_content-text">2017.10.28 11:37</div>
+                    </div>
+                </div>
+                <div class="quan-media-box__content ellips-content">
+                    原生js实现的左滑删除功能demo
+                </div>
+            </div>
+
+            <div class="quan-media-box">
+                <div class="quan-media-box__person">
+                    <img class="person_avator" src="./img/etc_img_free.png">
+                    <div class="person_content">
+                        <div class="person_content-title">下来刷新效果
+                            <span class="person_content__tag hide author">圈主</span>
+                            <span class="person_content__tag top">置顶</span>
+                            <span class="person_content__tag hot">精华</span>
+                        </div>
+                        <div class="person_content-text">2017.10.28 11:37</div>
+                    </div>
+                </div>
+                <div class="quan-media-box__content ellips-content">
+                    原生js实现的左滑删除功能demo
+                </div>
+            </div>
+
+            <div class="quan-media-box">
+                <div class="quan-media-box__person">
+                    <img class="person_avator" src="./img/etc_img_free.png">
+                    <div class="person_content">
+                        <div class="person_content-title">下来刷新效果
+                            <span class="person_content__tag hide author">圈主</span>
+                            <span class="person_content__tag top">置顶</span>
+                            <span class="person_content__tag hot">精华</span>
+                        </div>
+                        <div class="person_content-text">2017.10.28 11:37</div>
+                    </div>
+                </div>
+                <div class="quan-media-box__content ellips-content">
+                    原生js实现的左滑删除功能demo
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="quan-loadmore">数据加载中...</div>
+</div>
+
+<script src="./moveToDelete.js"></script>
+<script type="text/javascript">
+    MoveToDelete.init({
+        container: '.quan-media-box',
+        moveCount: 120, //和按钮的宽度总和相等
+        buttons: [{
+            text: '删除',
+            class: 'item_btn_del'
+        },{
+            text: '取消',
+            class: 'item_btn_cancel'
+        }]
+    });
+
+    // 这里用touchstart演示一下
+    window.addEventListener('touchstart', function(e) {
+        if(e.target.className === 'item_btn_cancel') {
+            console.log('click取消');
+            e.target.parentNode.classList.remove('move-out-click');
+            e.target.parentNode.style.transform = 'translateX(0px)';
+        }
+        if(e.target.className === 'item_btn_del') {
+            console.log('click删除');
+            e.target.parentNode.remove();
+        }
+    });
+</script>
+
+</body>
+</html>
