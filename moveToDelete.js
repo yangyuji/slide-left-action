@@ -65,7 +65,7 @@
                 }
 
                 // 动画慢一点，避免卡帧
-                container[i].style.transitionDuration = '125ms';
+                container[i].style.transitionDuration = '175ms';
 
                 // 开始滑动
                 container[i].addEventListener('touchstart', function (event) {
