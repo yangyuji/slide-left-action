@@ -119,6 +119,9 @@
         if(e.target.className === 'item_btn_cancel') {
             console.log('click取消');
             e.target.parentNode.classList.remove('move-out-click');
+            e.target.parentNode.style.webkitTransitionDuration = '125ms';
+            e.target.parentNode.style.transitionDuration = '125ms';
+            e.target.parentNode.style.webkitTransform = 'translateX(0px)';
             e.target.parentNode.style.transform = 'translateX(0px)';
         }
         if(e.target.className === 'item_btn_del') {

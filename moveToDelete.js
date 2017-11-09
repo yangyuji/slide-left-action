@@ -2,7 +2,7 @@
 * author: "oujizeng",
 * license: "MIT",
 * name: "moveToDelete.js",
-* version: "1.0.0"
+* version: "1.1.0"
 */
 
 (function (root, factory) {
@@ -53,7 +53,7 @@
 
             for (var i = 0; i < container.length; i++) {
 
-                var moveX = 0,                              // 拖动量
+                var moveX = 0, moveY = 0,                   // 拖动量
                     moveStart = null;                       // 开始抓取标志位
 
                 // 补充操作按钮
@@ -65,20 +65,31 @@
                 }
 
                 // 动画慢一点，避免卡帧
-                container[i].style.transitionDuration = '175ms';
+                container[i].style.webkitTransitionDuration = '125ms';
+                container[i].style.transitionDuration = '125ms';
 
                 // 开始滑动
                 container[i].addEventListener('touchstart', function (event) {
                     // 记录滑动位置
-                    moveStart = event.touches ? event.touches[0].pageX : event.clientX;
+                    moveStart = {
+                        x: event.touches ? event.touches[0].pageX : event.clientX,
+                        y: event.touches ? event.touches[0].pageY : event.clientY
+                    }
                 });
 
                 // 滑动过程
                 container[i].addEventListener('touchmove', function (event) {
+                    event.preventDefault();
 
                     var nowX = event.touches ? event.touches[0].pageX : event.clientX;
-                    moveX = nowX - moveStart;
-                    event.preventDefault();
+                    var nowY = event.touches ? event.touches[0].pageY : event.clientY;
+                    moveX = nowX - moveStart.x;
+                    moveY = nowY - moveStart.y;
+
+                    // 上下滑动
+                    if(Math.abs(moveX) < Math.abs(moveY)) {
+                        return false;
+                    }
 
                     // 向右滑动
                     if (moveX > 0) {
@@ -108,7 +119,8 @@
 
                         // 向右滑动，超过位移系数一半就隐藏按钮
                         if(moveX > 0){
-                            var x = moveX > (moveCount / 2) ? 0 : -moveCount;
+                            //var x = moveX > (moveCount / 2) ? 0 : -moveCount;
+                            var x = moveX > 10 ? 0 : -moveCount;  //改为超过10就隐藏按钮
                             this.style.webkitTransform = 'translateX(' + x + 'px)';
                             this.style.transform = 'translateX(' + x + 'px)';
                             if (x === 0) {
@@ -122,6 +134,14 @@
                             this.style.webkitTransform = 'translateX(' + x + 'px)';
                             this.style.transform = 'translateX(' + x + 'px)';
                             if (x !== 0) {
+                                // 关闭其他项的按钮
+                                for (var ii = 0; ii < container.length; ii++) {
+                                    if (util.hasClass(container[ii], 'move-out-click')) {
+                                        container[ii].style.webkitTransform = 'translateX(0px)';
+                                        container[ii].style.transform = 'translateX(0px)';
+                                        util.removeClass(container[ii], 'move-out-click');
+                                    }
+                                }
                                 util.addClass(this, 'move-out-click');
                             }
                         }
@@ -130,6 +150,7 @@
                     // 恢复初始化状态
                     moveStart = null;
                     moveX = 0;
+                    moveY = 0;
                 });
             }
         }
