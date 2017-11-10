@@ -2,7 +2,7 @@
 * author: "oujizeng",
 * license: "MIT",
 * name: "moveToDelete.js",
-* version: "1.1.0"
+* version: "1.2.1"
 */
 
 (function (root, factory) {
@@ -64,55 +64,83 @@
                     container[i].appendChild(btn);
                 }
 
-                // 动画慢一点，避免卡帧
-                container[i].style.webkitTransitionDuration = '125ms';
-                container[i].style.transitionDuration = '125ms';
+                // 开启硬件加速
+                container[i].style.transform = 'translateZ(0)';
 
                 // 开始滑动
                 container[i].addEventListener('touchstart', function (event) {
+
+                    // 还原动画时间
+                    this.style.webkitTransitionDuration = '0ms';
+                    this.style.transitionDuration = '0ms';
+
+                    // 关闭其他项的按钮，也可以放在滑动结束
+                    for (var ii = 0; ii < container.length; ii++) {
+                        if (util.hasClass(container[ii], 'move-out-click') && container[ii] != this) {
+                            // 动画慢一点，避免卡帧
+                            container[ii].style.webkitTransitionDuration = '325ms';
+                            container[ii].style.transitionDuration = '325ms';
+                            container[ii].style.webkitTransform = 'translateX(0px)';
+                            container[ii].style.transform = 'translateX(0px)';
+                            util.removeClass(container[ii], 'move-out-click');
+                        }
+                    }
+
                     // 记录滑动位置
                     moveStart = {
                         x: event.touches ? event.touches[0].pageX : event.clientX,
                         y: event.touches ? event.touches[0].pageY : event.clientY
                     }
-                });
+                }, true);
 
                 // 滑动过程
                 container[i].addEventListener('touchmove', function (event) {
-                    event.preventDefault();
+                    // 防止手机滑动跨越了几个容器，造成没有开始位置
+                    if (moveStart === null) {
+                        return;
+                    }
 
                     var nowX = event.touches ? event.touches[0].pageX : event.clientX;
                     var nowY = event.touches ? event.touches[0].pageY : event.clientY;
                     moveX = nowX - moveStart.x;
                     moveY = nowY - moveStart.y;
 
-                    // 上下滑动
-                    if(Math.abs(moveX) < Math.abs(moveY)) {
-                        return false;
-                    }
+                    // 规划代码：上下滑动距离达到或者超过容器高度就指示为滚动，不做处理
 
-                    // 向右滑动
-                    if (moveX > 0) {
-                        // 有按钮的时候才处理
-                        if(util.hasClass(this, 'move-out-click')) {
-                            var x = moveX > moveCount ? 0 : (-moveCount + Math.abs(moveX));
-                            this.style.webkitTransform = 'translateX(' + x + 'px)';
-                            this.style.transform = 'translateX(' + x + 'px)';
+                    // 左右滑动
+                    if(Math.abs(moveX) > Math.abs(moveY)) {
+                        // 动画慢一点，避免卡帧
+                        this.style.webkitTransitionDuration = '125ms';
+                        this.style.transitionDuration = '125ms';
+                        // 向右滑动
+                        if (moveX > 0) {
+                            // 有按钮的时候才处理
+                            if(util.hasClass(this, 'move-out-click')) {
+                                var x = moveX > moveCount ? 0 : -moveCount + moveX;
+                                this.style.webkitTransform = 'translateX(' + x + 'px)';
+                                this.style.transform = 'translateX(' + x + 'px)';
+                            }
+                        }
+                        // 向左滑动
+                        if (moveX < 0) {
+                            // 没有按钮的时候才处理
+                            if(!(util.hasClass(this, 'move-out-click'))) {
+                                var x = Math.abs(moveX) > moveCount ? -moveCount : moveX;
+                                this.style.webkitTransform = 'translateX(' + x + 'px)';
+                                this.style.transform = 'translateX(' + x + 'px)';
+                            }
                         }
                     }
-                    // 向左滑动
-                    if (moveX < 0) {
-                        // 没有按钮的时候才处理
-                        if(!(util.hasClass(this, 'move-out-click'))) {
-                            var x = Math.abs(moveX) > moveCount ? moveCount : Math.abs(moveX);
-                            this.style.webkitTransform = 'translateX(' + -x + 'px)';
-                            this.style.transform = 'translateX(' + -x + 'px)';
-                        }
-                    }
-                });
+                }, true);
 
                 // 滑动结束
                 container[i].addEventListener('touchend', function(event){
+                    // 防止手机滑动跨越了几个容器，造成没有开始位置
+                    if (moveStart === null) {
+                        return;
+                    }
+
+                    // 规划代码：上下滑动距离达到或者超过容器高度就指示为滚动，不做处理
 
                     // 已经显示按钮
                     if(util.hasClass(this, 'move-out-click')) {
@@ -130,18 +158,10 @@
                     } else {
                         // 向左滑动，超过位移系数一半就显示按钮
                         if (moveX < 0) {
-                            var x = -moveX > moveCount / 2 ? -moveCount : 0;
+                            var x = Math.abs(moveX) > moveCount / 2 ? -moveCount : 0;
                             this.style.webkitTransform = 'translateX(' + x + 'px)';
                             this.style.transform = 'translateX(' + x + 'px)';
-                            if (x !== 0) {
-                                // 关闭其他项的按钮
-                                for (var ii = 0; ii < container.length; ii++) {
-                                    if (util.hasClass(container[ii], 'move-out-click')) {
-                                        container[ii].style.webkitTransform = 'translateX(0px)';
-                                        container[ii].style.transform = 'translateX(0px)';
-                                        util.removeClass(container[ii], 'move-out-click');
-                                    }
-                                }
+                            if (x !== 0 ) {
                                 util.addClass(this, 'move-out-click');
                             }
                         }
@@ -151,7 +171,22 @@
                     moveStart = null;
                     moveX = 0;
                     moveY = 0;
-                });
+                }, true);
+
+                // 滑动取消
+                container[i].addEventListener('touchcancel', function(event) {
+                    console.log('cancel');
+                    // 回到初始位置
+                    this.style.webkitTransitionDuration = '225ms';
+                    this.style.transitionDuration = '225ms';
+                    this.style.webkitTransform = 'translateX(0px)';
+                    this.style.transform = 'translateX(0px)';
+                    util.removeClass(this, 'move-out-click');
+                    // 恢复初始化状态
+                    moveStart = null;
+                    moveX = 0;
+                    moveY = 0;
+                }, true);
             }
         }
     };
