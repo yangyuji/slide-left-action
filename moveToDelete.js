@@ -2,7 +2,7 @@
 * author: "oujizeng",
 * license: "MIT",
 * name: "moveToDelete.js",
-* version: "1.2.1"
+* version: "1.2.5"
 */
 
 (function (root, factory) {
@@ -65,6 +65,7 @@
                 }
 
                 // 开启硬件加速
+                container[i].style.webkitTransform = 'translateZ(0)';
                 container[i].style.transform = 'translateZ(0)';
 
                 // 开始滑动
@@ -109,9 +110,6 @@
 
                     // 左右滑动
                     if(Math.abs(moveX) > Math.abs(moveY)) {
-                        // 动画慢一点，避免卡帧
-                        this.style.webkitTransitionDuration = '125ms';
-                        this.style.transitionDuration = '125ms';
                         // 向右滑动
                         if (moveX > 0) {
                             // 有按钮的时候才处理
@@ -141,6 +139,10 @@
                     }
 
                     // 规划代码：上下滑动距离达到或者超过容器高度就指示为滚动，不做处理
+
+                    // 动画慢一点，避免卡帧
+                    this.style.webkitTransitionDuration = '125ms';
+                    this.style.transitionDuration = '125ms';
 
                     // 已经显示按钮
                     if(util.hasClass(this, 'move-out-click')) {
