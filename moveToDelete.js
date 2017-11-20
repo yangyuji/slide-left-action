@@ -89,8 +89,8 @@
 
                     // 记录滑动位置
                     moveStart = {
-                        x: event.touches ? event.touches[0].pageX : event.clientX,
-                        y: event.touches ? event.touches[0].pageY : event.clientY
+                        x: event.touches ? event.touches[0].pageX : event.touches[0].clientX,
+                        y: event.touches ? event.touches[0].pageY : event.touches[0].clientY
                     }
                 }, true);
 
@@ -101,8 +101,8 @@
                         return;
                     }
 
-                    var nowX = event.touches ? event.touches[0].pageX : event.clientX;
-                    var nowY = event.touches ? event.touches[0].pageY : event.clientY;
+                    var nowX = event.touches ? event.touches[0].pageX : event.touches[0].clientX;
+                    var nowY = event.touches ? event.touches[0].pageY : event.touches[0].clientY;
                     moveX = nowX - moveStart.x;
                     moveY = nowY - moveStart.y;
 
