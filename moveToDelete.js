@@ -2,15 +2,11 @@
 * author: "oujizeng",
 * license: "MIT",
 * name: "moveToDelete.js",
-* version: "1.2.5"
+* version: "1.2.6"
 */
 
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define([], function () {
-            return (root.returnExportsGlobal = factory());
-        });
-    } else if (typeof exports === 'object') {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = factory();
     } else {
         root['MoveToDelete'] = factory();
