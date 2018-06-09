@@ -29,7 +29,7 @@
 
     var slideLeftAction = {
 
-        init: function(opt){
+        init: function(opt) {
 
             var moveCount = opt.moveCount || 80,            // 位移距离
                 container = document.querySelectorAll(opt.container);  // 主容器
