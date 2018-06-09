@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-111
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-222
                 </div>
             </div>
 
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-333
                 </div>
             </div>
 
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo--444
                 </div>
             </div>
 
@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-555
                 </div>
             </div>
 
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-666
                 </div>
             </div>
 
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-777
                 </div>
             </div>
 
@@ -158,7 +158,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-888
                 </div>
             </div>
 
@@ -175,7 +175,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-999
                 </div>
             </div>
 
@@ -192,7 +192,7 @@
                     </div>
                 </div>
                 <div class="quan-media-box__content ellips-content">
-                    原生js实现的左滑删除功能demo
+                    原生js实现的左滑删除功能demo-000
                 </div>
             </div>
         </div>
@@ -201,34 +201,30 @@
     <div class="quan-loadmore">数据加载中...</div>
 </div>
 
-<script src="./moveToDelete.js"></script>
+<script src="./slideLeftAction.js"></script>
 <script type="text/javascript">
-    MoveToDelete.init({
+    slideLeftAction.init({
         container: '.quan-media-box',
         moveCount: 120, //和按钮的宽度总和相等
         buttons: [{
             text: '删除',
-            class: 'item_btn_del'
+            class: 'item_btn_del',
+            click: function (e) {
+                console.log('click删除');
+                e.target.parentNode.remove();
+            }
         },{
             text: '取消',
-            class: 'item_btn_cancel'
+            class: 'item_btn_cancel',
+            click: function (e) {
+                console.log('click取消');
+                e.target.parentNode.classList.remove('move-out-click');
+                e.target.parentNode.style.webkitTransitionDuration = '125ms';
+                e.target.parentNode.style.transitionDuration = '125ms';
+                e.target.parentNode.style.webkitTransform = 'translateX(0px)';
+                e.target.parentNode.style.transform = 'translateX(0px)';
+            }
         }]
-    });
-
-    // 这里用touchstart演示一下
-    window.addEventListener('touchstart', function(e) {
-        if(e.target.className === 'item_btn_cancel') {
-            console.log('click取消');
-            e.target.parentNode.classList.remove('move-out-click');
-            e.target.parentNode.style.webkitTransitionDuration = '125ms';
-            e.target.parentNode.style.transitionDuration = '125ms';
-            e.target.parentNode.style.webkitTransform = 'translateX(0px)';
-            e.target.parentNode.style.transform = 'translateX(0px)';
-        }
-        if(e.target.className === 'item_btn_del') {
-            console.log('click删除');
-            e.target.parentNode.remove();
-        }
     });
 </script>
 
