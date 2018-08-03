@@ -16,6 +16,15 @@
 }(this, function () {
     'use strict'
 
+    var passiveSupported = false;
+    try {
+        window.addEventListener("test", null, Object.defineProperty({}, "passive", {
+            get: function() {
+                passiveSupported = true;
+            }
+        }));
+    } catch(err) {}
+
     var _transform = function (el, attr, val) {
         var vendors = ['', 'webkit', 'ms', 'Moz', 'O'],
             body = document.body || document.documentElement;
@@ -73,7 +82,7 @@
                         x: event.touches[0].pageX,
                         y: event.touches[0].pageY
                     }
-                }, false);
+                }, passiveSupported ? { passive: true } : false);
 
                 // 滑动过程
                 container[i].addEventListener('touchmove', function (event) {
@@ -108,7 +117,7 @@
                             }
                         }
                     }
-                }, false);
+                }, passiveSupported ? { passive: true } : false);
 
                 // 滑动结束
                 container[i].addEventListener('touchend', function(){
@@ -116,8 +125,6 @@
                     if (moveStart === null) {
                         return;
                     }
-
-                    // 规划代码：上下滑动距离达到或者超过容器高度就指示为滚动，不做处理
 
                     // 因为已经滑动一段距离了，把动画调快一点
                     _transform(this, 'transitionDuration', '125ms');
