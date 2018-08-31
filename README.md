@@ -1,22 +1,34 @@
 # slide left action
 
-基于原生js实现的左滑显示操作按钮的功能模块
+基于原生js实现的左滑显示操作按钮的小插件
 
-## 实现功能
-> *  移动端左滑显示操作按钮功能
+## use like this
+```javascript
+slideLeftAction.init({
+    container: '.quan-media-box',
+    moveCount: 120, // 和按钮的宽度总和相等
+    buttons: [{
+        text: '删除',
+        class: 'item_btn_del',
+        click: function (e) {
+            console.log('click删除');
+            e.target.parentNode.remove();
+        }
+    },{
+        text: '取消',
+        class: 'item_btn_cancel',
+        click: function (e) {
+            console.log('click取消');
+            e.target.parentNode.classList.remove('move-out-click');
+            e.target.parentNode.style.webkitTransitionDuration = '125ms';
+            e.target.parentNode.style.transitionDuration = '125ms';
+            e.target.parentNode.style.webkitTransform = 'translateX(0px)';
+            e.target.parentNode.style.transform = 'translateX(0px)';
+        }
+    }]
+});
+```
 
-## 实现技术
-> *  原生javascript，无须依赖任何库；
-
-## 优点
-> *  代码非常小的库，只有100多行，每个人都能看懂；
-> *  无依赖，这样你就可以用于任何地方了；
-> *  使用简单，只有几个配置项。
-
-## 说明
-> * style.css是我写的页面样式，仅仅作为demo的展示样式；
-> * 使用方法：参考demo.html。
-
-## 预览
-> * 页面[点击这里](https://yangyuji.github.io/slide-left-action/demo.html)
-> * ![扫描二维码](https://github.com/yangyuji/slide-left-action/blob/master/qrcode.png)
+## preview
+> * [click here](https://yangyuji.github.io/slide-left-action/demo.html)
+> * ![qrcode](https://github.com/yangyuji/slide-left-action/blob/master/qrcode.png)

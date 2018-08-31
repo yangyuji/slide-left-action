@@ -1,15 +1,18 @@
-/*
-* author: "oujizeng",
-* license: "MIT",
-* name: "slideLeftAction.js",
-* version: "1.3.1"
+/**
+ * author: "oujizeng",
+ * license: "MIT",
+ * github: "https://github.com/yangyuji/slide-left-action",
+ * name: "slideLeftAction.js",
+ * version: "1.3.1"
 */
 
 (function (root, factory) {
     if (typeof module != 'undefined' && module.exports) {
         module.exports = factory();
     } else if (typeof define == 'function' && define.amd) {
-        define( function () { return factory(); } );
+        define(function () {
+            return factory();
+        });
     } else {
         root['slideLeftAction'] = factory();
     }
@@ -19,11 +22,12 @@
     var passiveSupported = false;
     try {
         window.addEventListener("test", null, Object.defineProperty({}, "passive", {
-            get: function() {
+            get: function () {
                 passiveSupported = true;
             }
         }));
-    } catch(err) {}
+    } catch (err) {
+    }
 
     var _transform = function (el, attr, val) {
         var vendors = ['', 'webkit', 'ms', 'Moz', 'O'],
@@ -39,7 +43,7 @@
 
     var slideLeftAction = {
 
-        init: function(opt) {
+        init: function (opt) {
 
             var moveCount = opt.moveCount || 80,            // 位移距离
                 container = document.querySelectorAll(opt.container);  // 主容器
@@ -99,11 +103,11 @@
                     // 规划代码：上下滑动距离达到或者超过容器高度就指示为滚动，不做处理
 
                     // 左右滑动
-                    if(Math.abs(moveX) > Math.abs(moveY)) {
+                    if (Math.abs(moveX) > Math.abs(moveY)) {
                         // 向右滑动
                         if (moveX > 0) {
                             // 有按钮的时候才处理
-                            if(this.classList.contains('move-out-click')) {
+                            if (this.classList.contains('move-out-click')) {
                                 var x = moveX > moveCount ? 0 : -moveCount + moveX;
                                 _transform(this, 'transform', 'translateX(' + x + 'px)');
                             }
@@ -111,7 +115,7 @@
                         // 向左滑动
                         if (moveX < 0) {
                             // 没有按钮的时候才处理
-                            if(!(this.classList.contains('move-out-click'))) {
+                            if (!(this.classList.contains('move-out-click'))) {
                                 var x = Math.abs(moveX) > moveCount ? -moveCount : moveX;
                                 _transform(this, 'transform', 'translateX(' + x + 'px)');
                             }
@@ -120,7 +124,7 @@
                 }, passiveSupported ? { passive: true } : false);
 
                 // 滑动结束
-                container[i].addEventListener('touchend', function(){
+                container[i].addEventListener('touchend', function () {
                     // 防止手机滑动跨越了几个容器，造成没有开始位置
                     if (moveStart === null) {
                         return;
@@ -130,9 +134,9 @@
                     _transform(this, 'transitionDuration', '125ms');
 
                     // 已经显示按钮
-                    if(this.classList.contains('move-out-click')) {
+                    if (this.classList.contains('move-out-click')) {
                         // 向右滑动
-                        if(moveX > 0) {
+                        if (moveX > 0) {
                             // 超过位移系数一半就隐藏按钮
                             //var x = moveX > (moveCount / 2) ? 0 : -moveCount;
                             var x = moveX > 10 ? 0 : -moveCount;  // 改为超过10就隐藏按钮
@@ -147,7 +151,7 @@
                             // 超过位移系数一半就显示按钮
                             var x = Math.abs(moveX) > moveCount / 2 ? -moveCount : 0;
                             _transform(this, 'transform', 'translateX(' + x + 'px)');
-                            if (x !== 0 ) {
+                            if (x !== 0) {
                                 this.classList.add('move-out-click');
                             }
                         }
@@ -160,7 +164,7 @@
                 }, false);
 
                 // 滑动取消
-                container[i].addEventListener('touchcancel', function() {
+                container[i].addEventListener('touchcancel', function () {
                     // 回到初始位置
                     _transform(this, 'transitionDuration', '225ms');
                     _transform(this, 'transform', 'translateX(0px)');
