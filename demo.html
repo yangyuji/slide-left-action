@@ -203,26 +203,26 @@
 
 <script src="./slideLeftAction.js"></script>
 <script type="text/javascript">
-    new slideLeftAction({
+    var sla = new slideLeftAction({
         container: '.quan-media-box',
         moveCount: 120, //和按钮的宽度总和相等
         buttons: [{
             text: '删除',
             class: 'item_btn_del',
             click: function (e) {
-                console.log('click删除');
-                e.target.parentNode.remove();
+                var el = e.target.parentNode;
+                console.log('click删除', el);
+                el.remove();
             }
         },{
             text: '取消',
             class: 'item_btn_cancel',
             click: function (e) {
-                console.log('click取消');
-                e.target.parentNode.classList.remove('move-out-click');
-                e.target.parentNode.style.webkitTransitionDuration = '125ms';
-                e.target.parentNode.style.transitionDuration = '125ms';
-                e.target.parentNode.style.webkitTransform = 'translateX(0px)';
-                e.target.parentNode.style.transform = 'translateX(0px)';
+                var el = e.target.parentNode;
+                console.log('click取消', el);
+                el.classList.remove('move-out-click');
+                sla._transform(el, 'transitionDuration', '125ms');
+                sla._transform(el, 'transform', 'translateX(0px)');
             }
         }]
     });
