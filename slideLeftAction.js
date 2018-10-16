@@ -42,21 +42,21 @@
                     this.container[i].appendChild(btn);
                 }
                 // 开启硬件加速
-                this._transform(this.container[i], 'transform', 'translateZ(0)');
+                this._transform(this.container[i], 'Transform', 'translateZ(0)');
                 this._bindEvent(this.container[i]);
             }
         },
         _start: function (el) {
             //console.log(el);
             // 还原动画时间
-            this._transform(el, 'transitionDuration', '0ms');
+            this._transform(el, 'TransitionDuration', '0ms');
 
             // 关闭其他项的按钮，也可以放在滑动结束
             for (var ii = 0; ii < this.container.length; ii++) {
                 if (this.container[ii].classList.contains('move-out-click') && this.container[ii] != el) {
                     // 动画慢一点
-                    this._transform(this.container[ii], 'transitionDuration', '225ms');
-                    this._transform(this.container[ii], 'transform', 'translateX(0px)');
+                    this._transform(this.container[ii], 'TransitionDuration', '225ms');
+                    this._transform(this.container[ii], 'Transform', 'translateX(0px)');
                     this.container[ii].classList.remove('move-out-click');
                 }
             }
@@ -87,7 +87,7 @@
                     // 有按钮的时候才处理
                     if (el.classList.contains('move-out-click')) {
                         var x = this.moveX > this.moveCount ? 0 : -this.moveCount + this.moveX;
-                        this._transform(el, 'transform', 'translateX(' + x + 'px)');
+                        this._transform(el, 'Transform', 'translateX(' + x + 'px)');
                     }
                 }
                 // 向左滑动
@@ -95,7 +95,7 @@
                     // 没有按钮的时候才处理
                     if (!(el.classList.contains('move-out-click'))) {
                         var x = Math.abs(this.moveX) > this.moveCount ? -this.moveCount : this.moveX;
-                        this._transform(el, 'transform', 'translateX(' + x + 'px)');
+                        this._transform(el, 'Transform', 'translateX(' + x + 'px)');
                     }
                 }
             }
@@ -107,7 +107,7 @@
             }
 
             // 因为已经滑动一段距离了，把动画调快一点
-            this._transform(el, 'transitionDuration', '125ms');
+            this._transform(el, 'TransitionDuration', '125ms');
 
             // 已经显示按钮
             if (el.classList.contains('move-out-click')) {
@@ -116,7 +116,7 @@
                     // 超过位移系数一半就隐藏按钮
                     //var x = moveX > (this.moveCount / 2) ? 0 : -this.moveCount;
                     var x = this.moveX > 10 ? 0 : -this.moveCount;  // 改为超过10就隐藏按钮
-                    this._transform(el, 'transform', 'translateX(' + x + 'px)');
+                    this._transform(el, 'Transform', 'translateX(' + x + 'px)');
                     if (x === 0) {
                         el.classList.remove('move-out-click');
                     }
@@ -126,7 +126,7 @@
                 if (this.moveX < 0) {
                     // 超过位移系数一半就显示按钮
                     var x = Math.abs(this.moveX) > this.moveCount / 2 ? -this.moveCount : 0;
-                    this._transform(el, 'transform', 'translateX(' + x + 'px)');
+                    this._transform(el, 'Transform', 'translateX(' + x + 'px)');
                     if (x !== 0) {
                         el.classList.add('move-out-click');
                     }
@@ -140,8 +140,8 @@
         },
         _cancel: function (el) {
             // 回到初始位置
-            this._transform(el, 'transitionDuration', '225ms');
-            this._transform(el, 'transform', 'translateX(0px)');
+            this._transform(el, 'TransitionDuration', '225ms');
+            this._transform(el, 'Transform', 'translateX(0px)');
             el.classList.remove('move-out-click');
             // 恢复初始化状态
             this.moveStart = null;
