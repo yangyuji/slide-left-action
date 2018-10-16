@@ -22,8 +22,8 @@ var sla = new slideLeftAction({
             var el = e.target.parentNode;
             console.log('click取消', el);
             el.classList.remove('move-out-click');
-            sla._transform(el, 'transitionDuration', '125ms');
-            sla._transform(el, 'transform', 'translateX(0px)');
+            sla._transform(el, 'TransitionDuration', '125ms');
+            sla._transform(el, 'Transform', 'translateX(0px)');
         }
     }]
 });
